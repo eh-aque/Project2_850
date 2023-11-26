@@ -103,7 +103,61 @@ model2.add(Dense(1024, activation='LeakyReLU'))  # increased neurons, changed ac
 model2.add(Dropout(0.5))
 model2.add(Dense(4, activation='softmax'))  # 4 neurons for 4 classes
 
-# Compile model before training
+
+# Define X_train and y_train
+X_train = np.array(...)  # Replace ... with your actual training data
+y_train = np.array(...)  # Replace ... with your actual training labels
+
+model.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])  # changed optimizer
 model2.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])  # changed optimizer
 
 # Step 4: Model Evaluation
+
+# history and fit the model
+history1 = model.fit(train_generator, validation_data=validation_generator, epochs=10)
+history2 = model2.fit(train_generator, validation_data=validation_generator, epochs=10)
+# history1 = model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=10, batch_size=32)
+# history2 = model2.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=10, batch_size=32)
+
+# Plot the training and validation accuracy and loss
+import matplotlib.pyplot as plt
+
+# Plot training & validation accuracy values for model 1
+plt.figure(figsize=(12, 4))
+plt.subplot(1, 2, 1)
+plt.plot(history1.history['accuracy'])
+plt.plot(history1.history['val_accuracy'])
+plt.title('Model 1 Accuracy')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Validation'], loc='upper left')
+
+# Plot training & validation loss values for model 1
+plt.subplot(1, 2, 2)
+plt.plot(history1.history['loss'])
+plt.plot(history1.history['val_loss'])
+plt.title('Model 1 Loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Validation'], loc='upper left')
+plt.show()
+
+# Plot training & validation accuracy values for model 2
+plt.figure(figsize=(12, 4))
+plt.subplot(1, 2, 1)
+plt.plot(history2.history['accuracy'])
+plt.plot(history2.history['val_accuracy'])
+plt.title('Model 2 Accuracy')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Validation'], loc='upper left')
+
+# Plot training & validation loss values for model 2
+plt.subplot(1, 2, 2)
+plt.plot(history2.history['loss'])
+plt.plot(history2.history['val_loss'])
+plt.title('Model 2 Loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Validation'], loc='upper left')
+plt.show()

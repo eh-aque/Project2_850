@@ -161,3 +161,8 @@ plt.ylabel('Loss')
 plt.xlabel('Epoch')
 plt.legend(['Train', 'Validation'], loc='upper left')
 plt.show()
+
+# Save the models
+model.save('model1.h5')
+model2.save('model2.h5')
+

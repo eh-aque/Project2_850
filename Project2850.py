@@ -43,30 +43,67 @@ validation_generator = validation_datagen.flow_from_directory(
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 
-# Define the model
-model1 = Sequential()
-model1.add(Conv2D(32, (3, 3), activation='relu', input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, CHANNELS)))
-model1.add(MaxPooling2D(pool_size=(2, 2)))
-model1.add(Conv2D(64, (3, 3), activation='relu'))
-model1.add(MaxPooling2D(pool_size=(2, 2)))
-model1.add(Flatten())
-model1.add(Dense(128, activation='relu'))
-model1.add(Dropout(0.5))
-model1.add(Dense(4, activation='softmax'))  # 4 neurons for 4 classes
+# # Define the model
+# model1 = Sequential()
+# model1.add(Conv2D(32, (3, 3), activation='relu', input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, CHANNELS)))
+# model1.add(MaxPooling2D(pool_size=(2, 2)))
+# model1.add(Conv2D(64, (3, 3), activation='relu'))
+# model1.add(MaxPooling2D(pool_size=(2, 2)))
+# model1.add(Flatten())
+# model1.add(Dense(128, activation='relu'))
+# model1.add(Dropout(0.5))
+# model1.add(Dense(4, activation='softmax'))  # 4 neurons for 4 classes
+
+# # Define the model 2
+# model2 = Sequential()
+# model2.add(Conv2D(64, (5, 5), strides=(2, 2), activation='relu', input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, CHANNELS)))  # increased filters and kernel size, added stride
+# model2.add(MaxPooling2D(pool_size=(2, 2)))
+# model2.add(Conv2D(128, (3, 3), strides=(1, 1), activation='relu'))  # increased filters, added stride
+# model2.add(MaxPooling2D(pool_size=(2, 2)))
+# model2.add(Conv2D(256, (3, 3), strides=(1, 1), activation='relu'))  # increased filters, added stride
+# model2.add(MaxPooling2D(pool_size=(2, 2)))
+# model2.add(Flatten())
+# model2.add(Dense(512, activation='relu'))  # increased neurons
+# model2.add(Dropout(0.5))
+# model2.add(Dense(4, activation='softmax'))  # 4 neurons for 4 classes
+
+# # Compile models before training
+# model1.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+# model2.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy']) 
+
+# Step 3: Hyperparameter Analysis
+# -------------------------------
 
 # Define the model
+model = Sequential()
+model.add(Conv2D(32, (3, 3), activation='relu', input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, CHANNELS)))  # try 'LeakyRelu' or 'elu'
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(64, (3, 3), activation='relu'))  # try 'LeakyRelu' or 'elu'
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Conv2D(128, (3, 3), activation='relu'))  # try 'LeakyRelu' or 'elu'
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Flatten())
+model.add(Dense(256, activation='relu'))  # try 'elu'
+model.add(Dropout(0.5))
+model.add(Dense(4, activation='softmax'))  # 4 neurons for 4 classes
+
+# Compile model before training
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])  # try different optimizers like 'sgd', 'rmsprop'
+
+# Define the model 2
 model2 = Sequential()
-model2.add(Conv2D(32, (3, 3), activation='relu', input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, CHANNELS)))
+model2.add(Conv2D(128, (3, 3), strides=(1, 1), activation='LeakyReLU', input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, CHANNELS)))  # increased filters, changed activation
 model2.add(MaxPooling2D(pool_size=(2, 2)))
-model2.add(Conv2D(64, (3, 3), activation='relu'))
+model2.add(Conv2D(256, (3, 3), strides=(1, 1), activation='LeakyReLU'))  # increased filters, changed activation
 model2.add(MaxPooling2D(pool_size=(2, 2)))
-model2.add(Conv2D(128, (3, 3), activation='relu'))
+model2.add(Conv2D(512, (3, 3), strides=(1, 1), activation='LeakyReLU'))  # increased filters, changed activation
 model2.add(MaxPooling2D(pool_size=(2, 2)))
 model2.add(Flatten())
-model2.add(Dense(256, activation='relu'))
+model2.add(Dense(1024, activation='LeakyReLU'))  # increased neurons, changed activation
 model2.add(Dropout(0.5))
 model2.add(Dense(4, activation='softmax'))  # 4 neurons for 4 classes
 
-# Compile models before training
-model1.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-model2.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+# Compile model before training
+model2.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['accuracy'])  # changed optimizer
+
+# Step 4: Model Evaluation

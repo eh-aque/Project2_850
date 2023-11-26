@@ -114,8 +114,8 @@ model2.compile(loss='categorical_crossentropy', optimizer='rmsprop', metrics=['a
 # Step 4: Model Evaluation
 
 # history and fit the model
-history1 = model.fit(train_generator, validation_data=validation_generator, epochs=10)
-history2 = model2.fit(train_generator, validation_data=validation_generator, epochs=10)
+history1 = model.fit(train_generator, validation_data=validation_generator, epochs=10) # epochs = 10 instead of 100 for github push
+history2 = model2.fit(train_generator, validation_data=validation_generator, epochs=10) # epochs = 10 instead of 100 for github push
 # history1 = model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=10, batch_size=32)
 # history2 = model2.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=10, batch_size=32)
 
@@ -165,4 +165,3 @@ plt.show()
 # Save the models
 model.save('model1.h5')
 model2.save('model2.h5')
-
